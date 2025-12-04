@@ -60,6 +60,11 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400).json({
+      message: "Email and password are required",
+    });
+  }
   try {
     const user = await User.findOne({ email });
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
