@@ -6,11 +6,18 @@ import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import helmet from "helmet";
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json()); // req.body
 app.use(cookieParser());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
 const __dirname = path.resolve();
 //prefixed
 app.use("/api/auth", authRoutes);
