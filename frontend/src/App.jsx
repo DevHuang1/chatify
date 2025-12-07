@@ -8,8 +8,6 @@ import { useAuthStore } from "./store/useAuthStore";
 const App = () => {
   const { authUser, isLoggedIn, login } = useAuthStore();
 
-  console.log(isLoggedIn);
-
   return (
     <div className="min-h-screen bg-slate-900 relative flex items-center justify-center p-4 overflow-hidden">
       {/* DECORATORS - GRID BG & GLOW SHAPES */}
