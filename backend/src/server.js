@@ -8,10 +8,9 @@ import cors from "cors";
 
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
-import { ENV } from "./lib/env.js";
 dotenv.config();
 const app = express();
-app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json()); // req.body
 app.use(cookieParser());
 app.use(
