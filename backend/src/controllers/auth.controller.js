@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 import cloudinary from "../lib/cloudinary.js";
->>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 import { generateToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
@@ -40,13 +37,8 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
     if (newUser) {
-<<<<<<< HEAD
-      generateToken(newUser._id, res);
-      await newUser.save();
-=======
       const savedUser = await newUser.save();
       generateToken(savedUser._id, res);
->>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 
       res.status(201).json({
         _id: newUser._id,
@@ -68,13 +60,6 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-<<<<<<< HEAD
-  res.send("Login endpoint");
-};
-
-export const logout = async (req, res) => {
-  res.send("Logout endpoint");
-=======
   const { email, password } = req.body;
   if (!email || !password) {
     res.status(400).json({
@@ -129,5 +114,4 @@ export const updateProfile = async (req, res) => {
     console.log("Error in update profile: ", error);
     res.status(500).json({ message: "Internal server error" });
   }
->>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 };
