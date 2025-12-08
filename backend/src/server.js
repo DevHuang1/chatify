@@ -5,10 +5,27 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
+<<<<<<< HEAD
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json()); // req.body
+=======
+import cookieParser from "cookie-parser";
+import helmet from "helmet";
+import { ENV } from "./lib/env.js";
+dotenv.config();
+const app = express();
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(express.json()); // req.body
+app.use(cookieParser());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
+>>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 const __dirname = path.resolve();
 //prefixed
 app.use("/api/auth", authRoutes);

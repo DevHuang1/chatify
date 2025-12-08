@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import cloudinary from "../lib/cloudinary.js";
+>>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 import { generateToken } from "../lib/utils.js";
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
@@ -36,8 +40,13 @@ export const signup = async (req, res) => {
       password: hashedPassword,
     });
     if (newUser) {
+<<<<<<< HEAD
       generateToken(newUser._id, res);
       await newUser.save();
+=======
+      const savedUser = await newUser.save();
+      generateToken(savedUser._id, res);
+>>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 
       res.status(201).json({
         _id: newUser._id,
@@ -59,9 +68,66 @@ export const signup = async (req, res) => {
 };
 
 export const login = async (req, res) => {
+<<<<<<< HEAD
   res.send("Login endpoint");
 };
 
 export const logout = async (req, res) => {
   res.send("Logout endpoint");
+=======
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res.status(400).json({
+      message: "Email and password are required",
+    });
+  }
+  try {
+    const user = await User.findOne({ email });
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
+    if (!isPasswordCorrect)
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+
+    generateToken(user._id, res);
+    res.status(201).json({
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      profilePic: user.profilePic,
+    });
+  } catch (error) {
+    console.log("Error in login controller", error);
+    res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const logout = async (_, res) => {
+  res.cookie("jwt", "", { maxAge: 0 });
+  res.status(200).json({
+    message: "Logged out successfully",
+  });
+};
+export const updateProfile = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    if (!profilePic)
+      return res.status(400).json({ message: "Profile pic is required" });
+    const userId = req.user._id;
+    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        profilePic: uploadResponse.secure_url,
+      },
+      { new: true }
+    );
+    res.status(200).json({ updatedUser });
+  } catch (error) {
+    console.log("Error in update profile: ", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+>>>>>>> 16cf9cfa0d2c80c48fbf8fc178e3b958214176ab
 };
