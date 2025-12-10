@@ -11,7 +11,7 @@ import helmet from "helmet";
 dotenv.config();
 const app = express();
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
-app.use(express.json()); // req.body
+app.use(express.json({ limit: "5mb" })); // req.body
 app.use(cookieParser());
 app.use(
   helmet({
